@@ -1,0 +1,380 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    -webkit-app-region: drag;
+    user-select: none;
+    font-family: "Microsoft YaHei", Arial, sans-serif;
+    background: linear-gradient(135deg, #0a1628 0%, #1a2f4a 100%);
+    color: #fff;
+    padding: 20px;
+    min-height: 100vh;
+    overflow: hidden;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.header {
+    text-align: center;
+    font-size: 18px;
+    line-height: 38px;
+    padding-bottom: 22px;
+}
+
+.main-content {
+    -webkit-app-region: no-drag;
+    display: flex;
+    gap: 20px;
+    padding-bottom: 20px;
+}
+
+.left-panel {
+    flex: 1;
+    background: rgba(10, 30, 60, 0.6);
+    border-radius: 8px;
+    padding: 20px;
+    height: 480px;
+    box-shadow: 0px 0px 3px #111111;
+}
+
+.player-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.player-table th {
+    background: rgba(20, 50, 90, 0.8);
+    padding: 10px;
+    text-align: center;
+    font-size: 14px;
+}
+
+.player-table td {
+    padding: 12px 8px;
+    text-align: center;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.player-table td span {
+    display: inline-block;
+    line-height: 24px;
+    padding: 0px 10px;
+}
+
+.player-table tr:hover {
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.color-box {
+    width: 40px;
+    height: 25px;
+    background: #fff;
+    margin: 0 auto;
+    border-radius: 3px;
+    /* border: 1px solid #666; */
+}
+
+.color-box.随机 {
+    background: #fff;
+}
+
+.color-box.黄色 {
+    background: #FFFF00;
+}
+
+.color-box.红色 {
+    background: #FF0000;
+}
+
+.color-box.蓝色 {
+    background: #0000FF;
+}
+
+.color-box.绿色 {
+    background: #00FF00;
+}
+
+.color-box.橙色 {
+    background: #E7B325;
+}
+
+.color-box.天蓝 {
+    background: #0088FF;
+}
+
+.color-box.紫色 {
+    background: #9000FF;
+}
+
+.color-box.粉色 {
+    background: #F19EC2;
+}
+
+.right-panel {
+    width: 400px;
+    background: rgba(10, 30, 60, 0.6);
+    border-radius: 8px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    box-shadow: 0px 0px 3px #111111;
+}
+
+.map-title {
+    font-size: 16px;
+    margin-bottom: 10px;
+    text-align: center;
+}
+
+.map-preview {
+    width: 100%;
+    height: 200px;
+    margin-bottom: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    color: #333;
+}
+
+.map-preview div {
+    display: flex;
+    width: 100%;
+    height: 200px;
+    background: linear-gradient(135deg, #8b7355 0%, #6b8e23 50%, #556b2f 100%);
+    align-items: center;
+    justify-content: center;
+    color: #FFF;
+}
+
+
+.map-preview img {
+    max-width: 100%;
+    max-height: 100%;
+    border: 2px solid #FFFFFF;
+    border-radius: 5px;
+}
+
+.action-buttons {
+    display: flex;
+    gap: 10px;
+    width: 100%;
+    margin-bottom: 15px;
+}
+
+.btn {
+    flex: 1;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.btn-blue {
+    background: #4a90e2;
+    color: #fff;
+}
+
+.btn-blue:hover {
+    background: #357abd;
+}
+
+.start-btn {
+    width: 100%;
+    padding: 15px;
+    background: #00aa00;
+    border-width: 0;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: bold;
+    color: #FFFFFF;
+    cursor: pointer;
+    position: relative;
+    margin-bottom: 15px;
+}
+
+.start-btn:hover {
+    background: rgba(0, 170, 0, 0.8);
+}
+
+.lock-icon {
+    position: absolute;
+    right: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.room-info {
+    width: 100%;
+    text-align: center;
+    font-size: 14px;
+    line-height: 1.8;
+}
+
+.room-info .highlight {
+    color: #4a90e2;
+}
+
+.room-info .green {
+    color: #5cb85c;
+}
+
+.settings {
+    -webkit-app-region: no-drag;
+    background: rgba(10, 30, 60, 0.6);
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 20px;
+    box-shadow: 0px 0px 3px #111111;
+}
+
+.settings-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 15px;
+}
+
+.checkbox-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 14px;
+}
+
+.checkbox-item input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
+    cursor: pointer;
+}
+
+.bottom-bar {
+    -webkit-app-region: no-drag;
+    background: rgba(10, 30, 60, 0.6);
+    border-radius: 8px;
+    padding: 15px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0px 0px 3px #111111;
+}
+
+.stats {
+    display: flex;
+    gap: 30px;
+    font-size: 16px;
+}
+
+.stats span {
+    cursor: pointer;
+}
+
+.bottom-buttons {
+    display: flex;
+    gap: 10px;
+}
+
+.btn-special {
+    padding: 8px 20px;
+    background: #2c5282;
+    border: 1px solid #4a90e2;
+    border-radius: 5px;
+    color: #fff;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.btn-special:hover {
+    background: #3d6ba8;
+}
+
+/* Added window control buttons styles */
+.window-controls {
+    -webkit-app-region: no-drag;
+    position: fixed;
+    top: 10px;
+    right: 10px;
+    display: flex;
+    gap: 8px;
+    z-index: 1000;
+}
+
+.window-btn {
+    width: 36px;
+    height: 36px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 18px;
+    font-weight: bold;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.minimize-btn {
+    background: rgba(50, 80, 120, 0.8);
+    color: #fff;
+}
+
+.minimize-btn:hover {
+    background: rgba(70, 100, 140, 0.9);
+}
+
+.close-btn {
+    background: rgba(180, 50, 50, 0.8);
+    color: #fff;
+}
+
+.close-btn:hover {
+    background: rgba(220, 60, 60, 0.9);
+}
+
+
+/* 新增的下拉选择框样式 */
+.selector-dropdown {
+    -webkit-app-region: no-drag;
+    position: fixed;
+    z-index: 1000;
+    background: linear-gradient(135deg, #0a1628 0%, #1a2f4a 100%);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 6px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    /* min-width: 200px;
+    max-height: 300px; */
+    overflow-y: auto;
+}
+
+.selector-content {
+    padding: 8px 8px;
+}
+
+.country-option {
+    display: flex;
+    align-items: center;
+    padding: 5px 15px;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.country-option:hover {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.flag-icon {
+    font-size: 20px;
+    margin-right: 10px;
+}
+
+.country-name {
+    font-size: 14px;
+}

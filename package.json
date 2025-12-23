@@ -1,0 +1,24 @@
+{
+    "name": "my-electron-app",
+    "version": "1.0.0",
+    "description": "Hello World!",
+    "main": "main.js",
+    "scripts": {
+    },
+    "author": "Jane Doe",
+    "license": "MIT",
+    "devDependencies": {
+        "electron": "^36.2.1"
+    },
+    "build": {
+        "appId": "com.example.app",
+        "copyright": "shuai",
+        "productName": "Electron App",
+        "icon": "icon.ico",
+        "win": {
+            "target": [
+                "portable"
+            ]
+        }
+    }
+}

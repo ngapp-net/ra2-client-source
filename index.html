@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>红色警戒2 尤里的复仇</title>
+    <link rel="stylesheet" href="./插件/element-plus/index.css">
+    <link rel="stylesheet" href="./样式/主界面.css">
+</head>
+
+<body>
+    <div id="加载中"></div>
+    <!-- <script src="./资源文件/第三方模块/vue/vue.global.prod.js"></script> -->
+    <script src="./插件/vue/vue.global.js"></script>
+    <script src="./插件/element-plus/index.full.min.js"></script>
+    <script src="./插件/element-plus/icons-vue.min.js"></script>
+    <script type="module">
+        import 视图 from "./插件/vue/视图.js";
+        (async function () {
+            window.根目录 = location.href.toString().replace('/index.html', '');
+            window.视图 = 视图;
+            视图.创建('主界面');
+        })();
+    </script>
+</body>
+
+</html>
