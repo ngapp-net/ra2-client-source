@@ -1,6 +1,6 @@
 <script>
 export default {
-    name: 'juanzeng',
+    name: '捐赠',
     data() {
         return {
             显示二维码: false,

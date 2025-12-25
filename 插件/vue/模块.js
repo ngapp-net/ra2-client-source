@@ -23,7 +23,7 @@ export default class 模块 {
             },
 
             log(type, ...args) {
-                console[type](...args);
+                // console[type](...args);
             },
             // compiledCache: {
             //     set(key, str) {

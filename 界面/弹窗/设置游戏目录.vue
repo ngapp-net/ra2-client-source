@@ -1,6 +1,6 @@
 <script>
 export default {
-    name: 'shiezhiyouximul',
+    name: '设置游戏目录',
     data() {
         return {
             下载地址: "https://cache.ngapp.net/aHR0cHM6Ly9naXRodWIuY29tL3poYWlzaHVhaWdhbi9yYTIvcmVsZWFzZXMvZG93bmxvYWQvdjAuMC4xL1JhMi56aXA=",

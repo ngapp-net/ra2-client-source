@@ -56,6 +56,20 @@ var 接口 = {
         fs.copyFileSync(源文件名, 目标文件名);
         return true;
     },
+    检测附件目录是否存在: async (地图路径) => {
+        var path = require('path');
+        var 游戏目录 = 接口.获取游戏目录();
+        // 获取地图路径的目录
+        var 源文件 = path.parse(地图路径);
+        var 源文件目录 = 源文件.dir;
+        var 自动识别资源目录 = ['附件', '资源', 'assets', '资源包'];
+
+        var 资源文件目录 = 自动识别资源目录.map(x => path.join(源文件目录, x)).find(x => 接口.目录存在(x));
+        if (资源文件目录) {
+            return true;
+        }
+        return false;
+    },
     复制地图附件到游戏目录: async (地图路径) => {
         return new Promise((resolve, reject) => {
             var path = require('path');
@@ -114,9 +128,12 @@ var 接口 = {
         });
 
     },
+    获取程序目录: () => {
+        const path = require('path');
+        return path.join(process.cwd(), '/');
+    },
     获取游戏目录: () => {
         const path = require('path');
-
         var 配置项 = 接口.获取设置('游戏目录');
         if (配置项 && 配置项 != '') {
             return path.join(配置项, "/");
@@ -326,19 +343,37 @@ var 接口 = {
         });
 
     },
+    获取最近地图: async () => {
+        var path = require('path');
+        var 最近地图 = 接口.获取设置('最近地图');
+        var 返回列表 = [];
+        for (var i = 0; i < 最近地图.length; i++) {
+            var 文件名 = 最近地图[i];
+            var 扩展名 = path.extname(文件名);
+            var 缩略图 = await 接口.获取缩略图(文件名)
+            返回列表.push({
+                文件名: 文件名,
+                缩略图: 缩略图,
+                名字: 文件名.replace(/.*\\/g, '').replace(扩展名, '')
+            });
+        }
+        return 返回列表;
+    },
     获取内置地图: async () => {
         var path = require('path');
-        var 内置地图目录 = path.join(process.cwd(), '../map');
+        var 内置地图目录 = path.join(process.cwd(), '/地图/');
         var 内置地图 = [];
         var fs = require('fs');
         var 文件列表 = fs.readdirSync(内置地图目录);
         for (var i = 0; i < 文件列表.length; i++) {
             var 文件名 = 文件列表[i];
-            if (文件名.endsWith('.map')) {
+            var 扩展名 = path.extname(文件名);
+            var 地图扩展名列表 = ['.map', '.yrm'];
+            if (地图扩展名列表.includes(扩展名)) {
                 内置地图.push({
-                    文件名: 内置地图目录 + '/' + 文件名,
-                    缩略图: 内置地图目录 + '/' + 'thumb_' + 文件名.replace('.map', '.png'),
-                    名字: 文件名.replace('.map', '')
+                    文件名: 内置地图目录 + 文件名,
+                    缩略图: 内置地图目录 + 'thumb_' + 文件名.replace(扩展名, '.png'),
+                    名字: 文件名.replace(扩展名, '')
                 });
             }
         }

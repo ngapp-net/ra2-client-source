@@ -2,17 +2,21 @@
 import 配置项 from './配置项.json';
 import 配置 from '../类库/配置.mjs';
 
-import juanzeng from './弹窗/捐赠.vue';
-import fankui from './弹窗/反馈.vue';
-import shezhiyouximulu from './弹窗/设置游戏目录.vue';
-import shiyongshuoming from './弹窗/使用说明.vue';
+import JuanZeng from './弹窗/捐赠.vue';
+import FanKui from './弹窗/反馈.vue';
+import SheZhiYouXiMuLu from './弹窗/设置游戏目录.vue';
+import ShiYongShuoMing from './弹窗/使用说明.vue';
+import DaKaiDiTu from './弹窗/打开地图.vue';
+import ChongZhiYouXi from './弹窗/重置游戏.vue';
 export default {
     name: 'Main',
     components: {
-        juanzeng,
-        shezhiyouximulu,
-        shiyongshuoming,
-        fankui
+        JuanZeng,
+        SheZhiYouXiMuLu,
+        ShiYongShuoMing,
+        FanKui,
+        DaKaiDiTu,
+        ChongZhiYouXi
     },
     data() {
         return {
@@ -100,7 +104,6 @@ export default {
         }
 
         window.addEventListener('click', () => {
-            console.log('点击了');
             if (this.显示选择框) {
                 this.关闭下拉框();
             }
@@ -302,9 +305,6 @@ export default {
                     await 接口.保存设置('显示模式', this.显示模式);
                     await this.写入分辨率配置();
                     break;
-                case '最近地图':
-                    this.设置地图(值);
-                    break;
                 case '分辨率':
                     var 分辨率 = 值.split('x');
                     this.屏幕.宽度 = 分辨率[0];
@@ -352,31 +352,7 @@ export default {
             this.当前选择索引 = -1;
         },
 
-        async 最近地图(event) {
-            var 最近地图列表 = await 接口.获取设置('最近地图');
-            if (!最近地图列表 || 最近地图列表.length == 0) {
-                ElementPlus.ElMessageBox.alert("好像还没选择过地图!", "提示", {
-                    confirmButtonText: '确定'
-                });
-                return;
-            }
-            if (this.选择字段 == '最近地图' && this.显示选择框 == true) {
-                this.关闭下拉框();
-                return;
-            }
-            this.记录点击位置(event);
-            this.当前选择索引 = -1;
-            this.选择字段 = '最近地图';
-
-            this.选项列表 = 最近地图列表;
-            this.显示选择框 = true;
-        },
-
-        async 选择其他地图() {
-            var 文件路径 = await 接口.打开文件();
-            if (!文件路径) {
-                return;
-            }
+        选中地图(文件路径) {
             this.设置地图(文件路径);
         },
 
@@ -387,18 +363,10 @@ export default {
                 配置对象.同步解析();
                 this.地图文件 = 文件路径;
                 this.地图名 = 配置对象.配置项['Basic']['Name'];
+                if (!this.地图名) {
+                    this.地图名 = 文件路径.split('\\').pop().split('/').pop().split('.')[0];
+                }
                 this.缩略图 = await 接口.获取缩略图(文件路径);
-                await 接口.保存设置('上次选择地图', 文件路径);
-
-                var 最近地图列表 = await 接口.获取设置('最近地图');
-                if (!最近地图列表) {
-                    最近地图列表 = [];
-                }
-                if (!最近地图列表.includes(文件路径)) {
-                    最近地图列表.unshift(文件路径);
-                    await 接口.保存设置('最近地图', 最近地图列表);
-                }
-
                 await this.读取配置();
             } catch (e) {
                 ElementPlus.ElMessageBox.alert("你似乎选择的不是地图文件!", "提示", {
@@ -439,7 +407,9 @@ export default {
         },
 
         async 保存配置() {
-            var 配置文件名 = this.地图文件 + '.run.json';
+            var 地图选项配置目录 = await 接口.获取程序目录() + '地图选项配置\\';
+            var 配置文件名 = this.地图文件.replace(/.*\\/g, '') + '.run.json';
+            配置文件名 = 地图选项配置目录 + 配置文件名;
             var 配置 = {
                 玩家信息: this.玩家信息,
                 电脑列表: this.电脑列表,
@@ -451,7 +421,9 @@ export default {
             await 接口.写入文件(配置文件名, JSON.stringify(配置));
         },
         async 读取配置() {
-            var 配置文件名 = this.地图文件 + '.run.json';
+            var 地图选项配置目录 = await 接口.获取程序目录() + '地图选项配置\\';
+            var 配置文件名 = this.地图文件.replace(/.*\\/g, '') + '.run.json';
+            配置文件名 = 地图选项配置目录 + 配置文件名;
             if (await 接口.文件存在(配置文件名)) {
                 var 配置内容 = await 接口.读取文件(配置文件名);
                 var 配置 = JSON.parse(配置内容);
@@ -653,18 +625,6 @@ export default {
             this.$alert('重置游戏完成', '提示', {
                 confirmButtonText: '确定',
             });
-        },
-        async 复制地图附件到游戏目录() {
-            var 返回结果 = await 接口.复制地图附件到游戏目录(this.地图文件);
-            if (!返回结果) {
-                this.$alert('复制地图附件失败', '提示', {
-                    confirmButtonText: '确定',
-                });
-                return;
-            }
-            this.$alert('复制地图附件成功', '提示', {
-                confirmButtonText: '确定',
-            });
         }
     },
 };
@@ -755,17 +715,15 @@ export default {
                     <div v-else=""><span>暂无缩略图</span></div>
                 </div>
                 <div class="action-buttons">
-                    <button class="btn btn-blue" @click.stop="最近地图($event)">最近地图</button>
-                    <button class="btn btn-blue" @click="选择其他地图">选择地图</button>
-                    <button class="btn btn-blue" v-if="地图文件" @click="复制地图附件到游戏目录">复制附件</button>
+                    <DaKaiDiTu @选中地图="选中地图" :选中的地图文件="地图文件"></DaKaiDiTu>
                 </div>
                 <button class="start-btn" @click="开始游戏()">
                     开始游戏
                 </button>
                 <div class="room-info">
                     <div>
-                        说明: 此版本目前是给地图作者使用的, 方便作者制作地图的时候测试地图, 具体使用方法可以参考:
-                        <shiyongshuoming></shiyongshuoming>
+                        说明: 此版本目前是给地图作者使用的, 具体使用方法可以参考:
+                        <ShiYongShuoMing></ShiYongShuoMing>
                     </div>
                 </div>
             </div>
@@ -821,9 +779,9 @@ export default {
                 <span @click.stop="选择分辨率($event)">分辨率: {{ 屏幕.宽度 }}x{{ 屏幕.高度 }}</span>
 
                 <!--弹窗.设置游戏目录></弹窗.设置游戏目录-->
-                <span @click="重置游戏">重置游戏</span>
-                <juanzeng></juanzeng>
-                <fankui></fankui>
+                <ChongZhiYouXi></ChongZhiYouXi>
+                <JuanZeng></JuanZeng>
+                <FanKui></FanKui>
             </div>
         </div>
 

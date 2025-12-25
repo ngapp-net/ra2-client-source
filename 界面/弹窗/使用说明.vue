@@ -1,6 +1,6 @@
 <script>
 export default {
-    name: 'shuoming',
+    name: '使用说明',
     data() {
         return {
             显示弹窗: false,

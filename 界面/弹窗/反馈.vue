@@ -1,6 +1,6 @@
 <script>
 export default {
-    name: 'fankui',
+    name: '反馈',
     data() {
         return {
             显示弹窗: false,
